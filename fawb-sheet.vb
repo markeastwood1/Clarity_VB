@@ -1,8 +1,12 @@
+'
+' Macros for the sheet named "FAWB"
+' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
+'
 Option Explicit
 
 Private Sub Worksheet_Activate()
     On Error Resume Next
-    
+
     Dim cell As Range
     For Each cell In Application.ActiveSheet.UsedRange
         ThisWorkbook.CheckRequiredCell cell
@@ -10,7 +14,7 @@ Private Sub Worksheet_Activate()
 
     ' check this value so we can auto-select the dedicated DB
     ThisWorkbook.CheckEPC
-    
+
     Dim result As Boolean
     result = ThisWorkbook.checkCapabilityInSolution("FICO Platform - Database Service")
     IF result = True then
@@ -30,7 +34,7 @@ End Sub
 Sub Worksheet_Change(ByVal Target As Range)
     On Error Resume Next
     ThisWorkbook.UnProtect_This_Sheet
-    
+
     sheet_autofit
 
     ThisWorkbook.Protect_This_Sheet

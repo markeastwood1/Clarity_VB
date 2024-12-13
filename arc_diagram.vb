@@ -1,3 +1,7 @@
+'
+' Macros for the sheet named "arc diagram"
+' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
+'
 Option Explicit
 
 Const ARC_DEDICATED_DB_VALUE As String = "G40"

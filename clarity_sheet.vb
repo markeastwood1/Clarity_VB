@@ -1,3 +1,7 @@
+'
+' Macros for the sheet named "Clarity" -- This is the main sheet of the whole thing.
+' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
+'
 Option Explicit
 
 'a bastardized way to have a global of this range so I can edit it in only 1 place

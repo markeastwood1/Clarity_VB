@@ -1,8 +1,12 @@
+'
+' Macros for the sheet named "DB Service"
+' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
+'
 Option Explicit
 
 Private Sub Worksheet_Activate()
     On Error Resume Next
-    
+
     Dim Cell As Range
     For Each Cell In Application.ActiveSheet.UsedRange
         ThisWorkbook.CheckRequiredCell Cell
@@ -30,7 +34,7 @@ End Sub
 Sub Worksheet_Change(ByVal Target As Range)
     On Error Resume Next
     ThisWorkbook.UnProtect_This_Sheet
-    
+
     sheet_autofit
 
     ThisWorkbook.Protect_This_Sheet

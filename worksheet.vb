@@ -1,6 +1,14 @@
+'
+' Macros for all worksheets unless they have one with additional functionality.
+' MOST sheets have this content and nothing else.
+' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
+'
+
+Option Explicit
+
 Private Sub Worksheet_Activate()
     On Error Resume Next
-    
+
     Dim Cell As Range
     For Each Cell In Application.ActiveSheet.UsedRange
         ThisWorkbook.CheckRequiredCell Cell
@@ -18,8 +26,8 @@ End Sub
 Sub Worksheet_Change(ByVal Target As Range)
     On Error Resume Next
     ThisWorkbook.UnProtect_This_Sheet
-    
+
     Target.AutoFit
-    
+
     ThisWorkbook.Protect_This_Sheet
 End Sub

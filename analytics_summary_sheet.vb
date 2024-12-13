@@ -1,3 +1,7 @@
+'
+' Macros for the sheet named "analytics summary"
+' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
+'
 Option Explicit
 
 Const CHAR_LIB_IN_SOLN_QUESTION As String = "D16"

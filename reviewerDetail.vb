@@ -1,6 +1,13 @@
+'
+' Macros for the sheet named "Reviewer Details"
+' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
+'
+
+Option Explicit
+
 Private Sub Worksheet_Activate()
     On Error Resume Next
-    
+
     ThisWorkbook.Worksheets("Reviewer Detail").Protect _
         password:=ThisWorkbook.myPassword, _
         AllowFormattingCells:=True, _

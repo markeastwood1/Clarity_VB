@@ -1,3 +1,7 @@
+'
+' Macros for the sheet named "analytics"
+' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
+'
 Option Explicit
 ' this essentially makes string compare case-insensitive ... use binary for case-sensitive
 Option Compare Text
