@@ -1,0 +1,34 @@
+Solution Type
+Analytics!E4
+
+
+Deployment Environment
+=IFERROR(IF(Analytics!E4=AnalyticsLookup!$B$29,IF(Analytics!E200="",CONCATENATE("Update Deployment Environment row ",Analytics!$A$200),Analytics!E200),VLOOKUP(Analytics!E20,AnalyticsLookup!$D$21:AnalyticsLookup!$E$35,2,FALSE)),"")
+
+Development Responsibility
+=IFERROR(VLOOKUP(CONCATENATE(Analytics!E4,"-",C32),AnalyticsLookup!$F$21:AnalyticsLookup!$H$35,2,FALSE),"")
+
+Deployment Responsibility
+=IFERROR(VLOOKUP(CONCATENATE(Analytics!E4,"-",C32),AnalyticsLookup!$F$21:AnalyticsLookup!$H$35,3,FALSE),"")
+
+Model Name
+Description
+Missouri
+Deployment Channel
+=IF(Analytics!E4=$AA$22,"To be confirmed from the standard catalog -- see link",
+IF(Analytics!E4=$AA$23,"TBC",
+IF(Analytics!E4=$AA$24,"TBC","n/a")))
+
+
+=IF(H$61=$AA$22,"To be confirmed from the standard catalog -- see link",
+IF(H$61=$AA$23,"To be confirmed from the standard catalog -- see link",
+IF(H$61=$AA$24,"To be confirmed from the standard catalog -- see link","n/a")))
+
+Missouri Architecture
+=IF(Analytics!$E$4=AnalyticsLookup!$B$29,
+IF(Analytics!$E$158="FICO Platform",
+IF(Analytics!$E$163="",CONCATENATE("Update Feature Generation architecture row ",Analytics!$A$205),
+IF(Analytics!$E$164="",CONCATENATE("Update Scoring Process architecture row ",Analytics!$A$206),
+IF(Analytics!$E$165="",CONCATENATE("Update Post Data Processing architecture row ",Analytics!$A$207),
+IFERROR(VLOOKUP(CONCATENATE(Analytics!$E$163,"-",Analytics!$E$164,"-",Analytics!$E$165),AnalyticsLookup!$AC$20:$AF$28,4,FALSE),AnalyticsLookup!$AF$28)))),
+IF(Analytics!$E$158="",CONCATENATE("Update Deployment Environment row ",Analytics!$A$200),"N/A")),"Not Custom Model")
