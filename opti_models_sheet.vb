@@ -2,6 +2,8 @@
 ' Macros for the sheet named "opti models"
 ' Copyright FICO (Fair Isaac Inc) 2023, 2024, 2025
 '
+' =IF(CLARITY!C20="","",CLARITY!C20)
+' =IF(C86="","",C86)
 
 Option Explicit
 ' string compare case-insensitive
