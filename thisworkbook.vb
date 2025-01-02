@@ -276,7 +276,7 @@ End Function
 ' change things in 50 places. If all sheets reference this Sub then I can temporarily tun this off
 ' in one place.
 Sub Protect_This_Sheet()
-    'ActiveSheet.Protect ThisWorkbook.myPassword()
+    ActiveSheet.Protect ThisWorkbook.myPassword()
 End Sub
 Sub UnProtect_This_Sheet()
     ActiveSheet.Unprotect ThisWorkbook.myPassword()
