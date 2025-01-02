@@ -967,6 +967,12 @@ Sub ToggleLookupTabs()
         Worksheets("Analytics Lookups").Visible = xlSheetVisible
     End If
 
+    If Worksheets("LookupsOpti").Visible = xlSheetVisible Then
+        Worksheets("LookupsOpti").Visible = xlVeryHidden
+    Else
+        Worksheets("LookupsOpti").Visible = xlSheetVisible
+    End If
+
     If Worksheets("ProductsMap").Visible = xlSheetVisible Then
         Worksheets("ProductsMap").Visible = xlVeryHidden
     Else
