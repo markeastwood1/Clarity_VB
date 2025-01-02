@@ -18,14 +18,15 @@ Const REQUIREMENTS_TRAINING_SUPPORT As String = "B16:B18"
 Const SOLUTION_TYPE_NON_FS_OPTI As String = "B20:B50"
 Const SOLUTION_TYPE_FS_OPTI_DO As String = "B53:B106"
 Const DECISION_AREA_PERSONAL_LOANS As String = "B109:B128"
-Const DECISION_AREA_CARDS As String = "B130:B149"
-Const DECISION_AREA_MORTGAGE As String = "B151:B169"
-Const DECISION_AREA_DEPOSIT As String = "B171:B193"
-Const DECISION_AREA_COLLECTIONS As String = "B195:B214"
-Const DECISION_AREA_ADS As String = "B216:B236"
-Const DECISION_AREA_OTHER As String = "B238:B250"
-Const SOLUTION_TYPE_OTHER = "B252:B258"
-Const REQUIREMENTS_OTHER As String = "B260:B262"
+Const DECISION_AREA_CARDS_ICL As String = "B130:B156"
+Const DECISION_AREA_CARDS_CLI As String = "B158:B186"
+Const DECISION_AREA_MORTGAGE As String = "B188:B206"
+Const DECISION_AREA_DEPOSIT As String = "B208:B230"
+Const DECISION_AREA_COLLECTIONS As String = "B232:B251"
+Const DECISION_AREA_ADS As String = "B253:B273"
+Const DECISION_AREA_OTHER As String = "B275:B287"
+Const SOLUTION_TYPE_OTHER = "B289:B295"
+Const REQUIREMENTS_OTHER As String = "B297:B299"
 
 Private Sub Worksheet_Activate()
     On Error Resume Next
@@ -121,7 +122,8 @@ Sub ShowSection(ByVal SolutionType As String, SolnRequirements As String)
     ToggleQuestions False, REQUIREMENTS_CONSULTING_SUPPORT
     ToggleQuestions False, REQUIREMENTS_TRAINING_SUPPORT
     ToggleQuestions False, DECISION_AREA_PERSONAL_LOANS
-    ToggleQuestions False, DECISION_AREA_CARDS
+    ToggleQuestions False, DECISION_AREA_CARDS_ICL
+    ToggleQuestions False, DECISION_AREA_CARDS_CLI
     ToggleQuestions False, DECISION_AREA_MORTGAGE
     ToggleQuestions False, DECISION_AREA_DEPOSIT
     ToggleQuestions False, DECISION_AREA_COLLECTIONS
@@ -170,9 +172,9 @@ Sub ShowSection(ByVal SolutionType As String, SolnRequirements As String)
             Case "Personal Loans Pricing & Amount"
                 ToggleQuestions True, DECISION_AREA_PERSONAL_LOANS
             Case "Credit Cards Initial Credit Limit"
-                ToggleQuestions True, DECISION_AREA_CARDS
+                ToggleQuestions True, DECISION_AREA_CARDS_ICL
             Case "Credit Cards Credit Limit Increase"
-                ToggleQuestions True, DECISION_AREA_CARDS
+                ToggleQuestions True, DECISION_AREA_CARDS_CLI
             Case "Mortgage Pricing"
                 ToggleQuestions True, DECISION_AREA_MORTGAGE
             Case "Deposit Pricing"
