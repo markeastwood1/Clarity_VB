@@ -8,18 +8,17 @@ Option Explicit
 Option Compare Text
 
 Const CAPABILITY_LIST As String = "A4:A18"
-
 Const EPC_QUESTION As String = "C23"
-
 Const DBS_DEDICATED_VALUE As String = "C4"
 Const DBS_DEDICATED_COMMENT As String = "D4"
 Const DBS_SIZE_VALUE As String = "C10"
 Const DBS_SIZE_COMMENT As String = "D10"
-
 Const FAWB_DEDICATED_VALUE As String = "C6"
 Const FAWB_DEDICATED_COMMENT As String = "D6"
 Const FAWB_SIZE_VALUE As String = "C12"
 Const FAWB_SIZE_COMMENT As String = "D12"
+Const RANGE_LAST_USER As String = "C2"
+Const RANGE_LAST_EDIT_DATE As String = "B2"
 
 Private Sub Workbook_Open()
     ' this runs when the workbook opens
@@ -206,12 +205,14 @@ Function myPassword() As String
     myPassword = "12345"
 End Function
 Private Sub UpdateLastAuthor()
+' The Constant string holds the cell reference but I haven't found a way to encode the sheet name in that expression.
+' Therefore you see the extra code "ThisWorkbook.Worksheets("Clarity")."
     On Error Resume Next
 
     ThisWorkbook.Protect Structure:=False
     ThisWorkbook.Worksheets("Clarity").Unprotect ThisWorkbook.myPassword()
 
-    ThisWorkbook.Worksheets("Clarity").Range("C2").Value = ThisWorkbook.BuiltinDocumentProperties("Last Author")
+    ThisWorkbook.Worksheets("Clarity").Range(RANGE_LAST_USER).Value = ThisWorkbook.BuiltinDocumentProperties("Last Author")
 
     ThisWorkbook.Worksheets("Clarity").Protect ThisWorkbook.myPassword()
     ThisWorkbook.Protect Structure:=True
@@ -222,7 +223,7 @@ Private Sub UpdateLastModifiedDate()
     ThisWorkbook.Protect Structure:=False
     ThisWorkbook.Worksheets("Clarity").Unprotect ThisWorkbook.myPassword()
 
-    ThisWorkbook.Worksheets("Clarity").Range("B2").Value = Now()
+    ThisWorkbook.Worksheets("Clarity").Range(RANGE_LAST_EDIT_DATE).Value = Now()
 
     ThisWorkbook.Worksheets("Clarity").Protect ThisWorkbook.myPassword()
     ThisWorkbook.Protect Structure:=False

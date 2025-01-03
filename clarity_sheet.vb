@@ -4,46 +4,19 @@
 '
 Option Explicit
 
-'a bastardized way to have a global of this range so I can edit it in only 1 place
-Private Function RangeCapability() As Range
-    Set RangeCapability = ThisWorkbook.Sheets("Clarity").Range("A4:A18")
-End Function
-Private Function RangeOptional() As Range
-    Set RangeOptional = ThisWorkbook.Sheets("Clarity").Range("B4:B18")
-End Function
-Private Function RangeNew() As Range
-    Set RangeNew = ThisWorkbook.Sheets("Clarity").Range("C4:C18")
-End Function
-Private Function RangeUseCase() As Range
-    Set RangeUseCase = ThisWorkbook.Sheets("Clarity").Range("C25")
-End Function
-Private Function RangeModels() As Range
-    Set RangeModels = ThisWorkbook.Sheets("Clarity").Range("C36")
-End Function
-Private Function RangeModelsFICO() As Range
-    Set RangeModelsFICO = ThisWorkbook.Sheets("Clarity").Range("C37")
-End Function
-Private Function RangeModelQuestions() As Range
-    Set RangeModelQuestions = ThisWorkbook.Sheets("Clarity").Range("A37:A39")
-End Function
-Private Function RangeProducts() As Range ' if you add or remove products from the list update the range here.
-    Set RangeProducts = ThisWorkbook.Sheets("ProductsMap").Range("A2:B73")
-End Function
-Private Function RangeDependencies() As Range ' if you add or remove products from the list update the range here.
-    Set RangeDependencies = ThisWorkbook.Sheets("ProductsMap").Range("A2:D73")
-End Function
-Private Function RangeUseCases() As Range
-    Set RangeUseCases = ThisWorkbook.Sheets("UseCaseMap").Range("A2:B47")
-End Function
-Private Function RangeLastUser() As Range
-    Set RangeLastUser = ThisWorkbook.Sheets("Clarity").Range("C2")
-End Function
-Private Function RangePSMigration() As Range
-    Set RangePSMigration = ThisWorkbook.Sheets("Clarity").Range("A32")
-End Function
-Private Function RangeAutoFit() As Range
-    Set RangeAutoFit = ThisWorkbook.Sheets("Clarity").Range("C20:D78")
-End Function
+' a way to have a global range definition so I can edit in one place
+Const RANGE_CAPABILITY As String = "A4:A18"
+Const RANGE_OPTIONAL As String = "B4:B18"
+Const RANGE_NEW As String = "C4:C18"
+Const RANGE_USE_CASE As String = "C25"
+Const RANGE_MODELS_QUESTION As String = "C36"
+Const RANGE_MODELS_PROVIDER As String = "C37"
+Const RANGE_MODEL_QUESTIONS As String = "A37:A39"
+Const RANGE_CAPABILITY_MAP As String = "A2:B73"
+Const RANGE_DEPENDENCIES As String = "A2:D73"
+Const RANGE_USE_CASE_MAP As String = "A2:B47"
+Const RANGE_PS_MIGRATION As String = "A32"
+
 Sub Worksheet_Activate()
     ' process the cells marked as required
 
@@ -75,7 +48,7 @@ Sub Worksheet_Change(ByVal Target As Range)
     On Error Resume Next
 
     ' attempt to handle the case where someone deletes multiple capabilities from the
-    ' at the same time
+    ' at the same time - not sure this works correctly but...
     If Target.Count = 1 Then
         ShowCapabilityTabs Target
     Else
@@ -104,7 +77,7 @@ Sub ShowCapabilityTabs(Target As Range)
 
     ' show or hide the tabs
 
-    Set capabilityUpdated = Intersect(Target, RangeCapability())
+    Set capabilityUpdated = Intersect(Target, Range(RANGE_CAPABILITY))
 
   ' if the change happens outside of the range then ignore it
     If capabilityUpdated Is Nothing Then
@@ -204,7 +177,7 @@ Sub ShowHideModelsQuestions(Target As Range)
     Dim modelsAnswer As Range
 
     'did the change happen where we are interested?
-    Set modelsAnswer = Intersect(Target, RangeModels())
+    Set modelsAnswer = Intersect(Target, Range(RANGE_MODELS_QUESTION))
 
   ' if the change happens outside of the range then ignore it
     If modelsAnswer Is Nothing Then
@@ -215,13 +188,13 @@ Sub ShowHideModelsQuestions(Target As Range)
     ' hide the rows
          Dim r As Range
 
-         For Each r In RangeModelQuestions().Rows
+         For Each r In Range(RANGE_MODEL_QUESTIONS).Rows
              r.EntireRow.Hidden = True
          Next r
          Worksheets("Analytics").Visible = False
     Else
         ' show the rows
-        For Each r In RangeModelQuestions().Rows
+        For Each r In Range(RANGE_MODEL_QUESTIONS).Rows
              r.EntireRow.Hidden = False
          Next r
     End If
@@ -233,7 +206,7 @@ Sub ShowHideModelsTab(Target As Range)
     On Error Resume Next
     ThisWorkbook.Protect Structure:=False
 
-    Select Case RangeModelsFICO().Value2
+    Select Case Range(RANGE_MODELS_PROVIDER).Value2
 
     Case "FICO Models"
         Worksheets("Analytics").Visible = xlSheetVisible
@@ -261,7 +234,7 @@ Sub ShowUseCaseTabs(Target As Range)
     On Error Resume Next
 
     Dim useCaseSelection As Range
-    Set useCaseSelection = Intersect(Target, RangeUseCase())
+    Set useCaseSelection = Intersect(Target, Range(RANGE_USE_CASE))
 
     ' if the change happens outside of the range then ignore it
     If useCaseSelection Is Nothing Then
@@ -374,20 +347,20 @@ Private Sub ResetButton()
 
     ' clear out the drop-downs
     Dim iCell As Range
-    For Each iCell In RangeCapability()
+    For Each iCell In Range(RANGE_CAPABILITY)
         iCell.ClearContents
     Next iCell
 
-    For Each iCell In RangeOptional()
+    For Each iCell In Range(RANGE_OPTIONAL)
         iCell.ClearContents
     Next iCell
 
-    For Each iCell In RangeNew()
+    For Each iCell In Range(RANGE_NEW)
         iCell.ClearContents
     Next iCell
 
     'simply move the selection to the first row where we can select a capability
-    RangeCapability().Cells(1, 1).Select
+    Range(RANGE_CAPABILITY).Cells(1, 1).Select
 
     'reset the toggles too
     ButtonOff button:=ActiveSheet.Shapes("ProfessionalServices")
@@ -401,8 +374,8 @@ Private Sub ResetButton()
     togglePSMigration (0)
 
     'reset the use case too
-    RangeUseCase().Value2 = ""
-    RangeUseCase().Interior.ColorIndex = 0
+    Range(RANGE_USE_CASE).Value2 = ""
+    Range(RANGE_USE_CASE).Interior.ColorIndex = 0
 
     DeletePicture1
     DeletePicture2
@@ -502,7 +475,7 @@ Function ProductSelectMapping(selectedName As String)
     Dim selectedTab As String
 
     ' name we're looking for, the place to go looking, the column to return and FALSE means to do an exact match
-    selectedTab = Application.VLookup(selectedName, RangeProducts(), 2, False)
+    selectedTab = Application.VLookup(selectedName, ThisWorkbook.Sheets("ProductsMap").Range(RANGE_CAPABILITY_MAP), 2, False)
 
     If Not IsError(selectedTab) Then
         ProductSelectMapping = selectedTab
@@ -521,7 +494,7 @@ Function ProductDependency_1(selectedName As String) As String
     Dim dependency_1 As String
 
     ' name we're looking for, the place to go looking, the column to return and FALSE means to do an exact match
-    dependency_1 = Application.VLookup(selectedName, RangeDependencies(), 3, False)
+    dependency_1 = Application.VLookup(selectedName, ThisWorkbook.Sheets("ProductsMap").Range(RANGE_DEPENDENCIES), 3, False)
 
     If Not IsError(dependency_1) Then
         ProductDependency_1 = dependency_1
@@ -542,7 +515,7 @@ Function ProductDependency_2(selectedName As String) As String
     Dim dependency_2 As String
 
     ' name we're looking for, the place to go looking, the column to return and FALSE means to do an exact match
-    dependency_2 = Application.VLookup(selectedName, RangeDependencies(), 4, False)
+    dependency_2 = Application.VLookup(selectedName, ThisWorkbook.Sheets("ProductsMap").Range(RANGE_DEPENDENCIES), 4, False)
 
     If Not IsError(dependency_2) Then
         ProductDependency_2 = dependency_2
@@ -563,8 +536,8 @@ Sub InsertDependency(dependentName As String)
 
      Dim numRows As Integer
 
-     numRows = RangeCapability().Rows.Count
-     RangeCapability().Select
+     numRows = Range(RANGE_CAPABILITY).Rows.Count
+     Range(RANGE_CAPABILITY).Select
 
      Application.ScreenUpdating = False
 
@@ -591,10 +564,10 @@ Sub DeleteDependency(dependentName As String)
 
     Dim tabname As String
     Dim numRows, loopCounter As Integer
-    numRows = RangeCapability().Rows.Count
+    numRows = Range(RANGE_CAPABILITY).Rows.Count
     loopCounter = 0
 
-    RangeCapability().Select
+    Range(RANGE_CAPABILITY).Select
 
     Application.ScreenUpdating = False
 
@@ -624,10 +597,10 @@ Function isListedCapability(selectedName As String) As Boolean
     End If
 
     Dim numRows, loopCounter As Integer
-    numRows = RangeCapability().Rows.Count
+    numRows = Range(RANGE_CAPABILITY).Rows.Count
     loopCounter = 0
 
-    RangeCapability().Select
+    Range(RANGE_CAPABILITY).Select
 
     Application.ScreenUpdating = False
 
@@ -657,7 +630,7 @@ Function UseCaseSelectMapping(selectedName As String)
 
     Dim selectedTab As String
 
-    selectedTab = Application.VLookup(selectedName, RangeUseCases(), 2, False)
+    selectedTab = Application.VLookup(selectedName, ThisWorkbook.Sheets("UseCaseMap").Range(RANGE_USE_CASE_MAP), 2, False)
 
     If Not IsError(selectedTab) Then
         UseCaseSelectMapping = selectedTab
@@ -815,15 +788,15 @@ Sub SuperReset()
 
     ' clear out the drop-downs
     Dim iCell As Range
-    For Each iCell In RangeCapability()
+    For Each iCell In Range(RANGE_CAPABILITY)
         iCell.ClearContents
     Next iCell
 
-    For Each iCell In RangeOptional()
+    For Each iCell In Range(RANGE_OPTIONAL)
         iCell.ClearContents
     Next iCell
 
-    For Each iCell In RangeNew()
+    For Each iCell In Range(RANGE_NEW)
         iCell.ClearContents
     Next iCell
 
@@ -860,14 +833,14 @@ Sub SuperReset()
     Worksheets("Executive Review").Visible = xlVeryHidden
 
     'reset the Use Case too
-    RangeUseCase().Value2 = ""
-    RangeUseCase().Interior.ColorIndex = 0
+    Range(RANGE_USE_CASE).Value2 = ""
+    Range(RANGE_USE_CASE).Interior.ColorIndex = 0
 
     'reset the Models Question too
-    RangeModels().Value2 = "No"
+    Range(RANGE_MODELS_QUESTION).Value2 = "No"
 
     'simply move the selection to the first row where we can select a capability
-    RangeCapability().Cells(1, 1).Select
+    Range(RANGE_CAPABILITY).Cells(1, 1).Select
 
     DeletePicture1
     DeletePicture2
@@ -994,11 +967,11 @@ Sub togglePSMigration(theStatus As Integer)
     Dim r
 
     If theStatus = 1 Then
-        For Each r In RangePSMigration().Rows
+        For Each r In Range(RANGE_PS_MIGRATION).Rows
              r.EntireRow.Hidden = False
          Next r
     Else
-        For Each r In RangePSMigration().Rows
+        For Each r In Range(RANGE_PS_MIGRATION).Rows
              r.EntireRow.Hidden = True
          Next r
     End If
