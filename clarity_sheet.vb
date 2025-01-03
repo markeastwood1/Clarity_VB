@@ -30,7 +30,7 @@ Private Function RangeProducts() As Range ' if you add or remove products from t
     Set RangeProducts = ThisWorkbook.Sheets("ProductsMap").Range("A2:B73")
 End Function
 Private Function RangeDependencies() As Range ' if you add or remove products from the list update the range here.
-    Set RangeDependencies = ThisWorkbook.Sheets("ProductsMap").Range("A2:D80")
+    Set RangeDependencies = ThisWorkbook.Sheets("ProductsMap").Range("A2:D73")
 End Function
 Private Function RangeUseCases() As Range
     Set RangeUseCases = ThisWorkbook.Sheets("UseCaseMap").Range("A2:B47")
