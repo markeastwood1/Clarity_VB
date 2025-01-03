@@ -27,7 +27,7 @@ Private Function RangeModelQuestions() As Range
     Set RangeModelQuestions = ThisWorkbook.Sheets("Clarity").Range("A37:A39")
 End Function
 Private Function RangeProducts() As Range ' if you add or remove products from the list update the range here.
-    Set RangeProducts = ThisWorkbook.Sheets("ProductsMap").Range("A2:B80")
+    Set RangeProducts = ThisWorkbook.Sheets("ProductsMap").Range("A2:B73")
 End Function
 Private Function RangeDependencies() As Range ' if you add or remove products from the list update the range here.
     Set RangeDependencies = ThisWorkbook.Sheets("ProductsMap").Range("A2:D80")
