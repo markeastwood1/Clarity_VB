@@ -222,9 +222,11 @@ Sub CheckServices()
 
     If IsEPC = "Yes" Then
         Worksheets("Arc Diagram").Range(ARC_DEDICATED_SERVICES_VALUE).Value2 = "Yes"
+        ThisWorkbook.UnProtect_This_Sheet
         Worksheets("Arc Diagram").Range(ARC_DEDICATED_SERVICES_COMMENT).Value2 = "EPC Customers get dedicated services to prevent noisy neighbor issues."
     Else
         Worksheets("Arc Diagram").Range(ARC_DEDICATED_SERVICES_VALUE).Value2 = "No"
+        ThisWorkbook.UnProtect_This_Sheet
         Worksheets("Arc Diagram").Range(ARC_DEDICATED_SERVICES_COMMENT).Value2 = "Default for non-EPC"
     End If
 
