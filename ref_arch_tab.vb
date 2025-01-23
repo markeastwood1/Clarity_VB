@@ -54,8 +54,10 @@ Private Sub deleteImageByName(ByVal arg1 As String)
     Dim pic As Shape
 
     For Each pic In ThisWorkbook.Worksheets("Ref_Arch_Diagram").Shapes
-        If InStr(1, pic.Name, arg1, vbTextCompare) <> 0 Then
+        If InStr(1, pic.name, arg1, vbTextCompare) <> 0 Then
+            ThisWorkbook.UnProtect_This_Sheet
             pic.Delete
+            ThisWorkbook.Protect_This_Sheet
         End If
     Next pic
 End Sub

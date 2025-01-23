@@ -159,7 +159,9 @@ Private Sub deleteImageByName(ByVal arg1 As String)
 
     For Each pic In ThisWorkbook.Worksheets("Executive Review").Shapes
         If InStr(1, pic.Name, arg1, vbTextCompare) <> 0 Then
+            ThisWorkbook.UnProtect_This_Sheet
             pic.Delete
+            ThisWorkbook.Protect_This_Sheet
         End If
     Next pic
 
