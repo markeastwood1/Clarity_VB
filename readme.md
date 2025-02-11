@@ -8,3 +8,5 @@ The file named `thisworkbook.vb` is is used by the workbook level. In the Excel 
 
 ## Protection
 The code itself is locked using the default password as are cells on all sheets except where we've specifically unlocked them for user input. The idea is simple, don't allow people to mess with the form. Also, "structure protection" at teh workbook level means they can't hide/un-hide tabs either, its totally controlled by the VB code.
+
+Eduardo was here 
