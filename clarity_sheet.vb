@@ -371,6 +371,7 @@ Private Sub ResetButton()
     Worksheets("SolutionAccelerators").Visible = xlVeryHidden
     ButtonOff button:=ActiveSheet.Shapes("MultiUseCase")
     ButtonOff button:=ActiveSheet.Shapes("Migration")
+    'ButtonOff button:=ActiveSheet.Shapes("SalesNotes")
     togglePSMigration (0)
 
     'reset the use case too
@@ -397,6 +398,10 @@ End Sub
 Sub ShowBusinessConsulting()
     On Error Resume Next
     ToggleTabByName buttonName:="BusinessConsulting", tabname:="Business Consulting"
+End Sub
+Sub ShowSalesNotes()
+    On Error Resume Next
+    ToggleTabByName buttonName:="SalesNotes", tabname:="Sales Notes"
 End Sub
 Sub ShowReviewTabs()
     On Error Resume Next
