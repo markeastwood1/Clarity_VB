@@ -33,8 +33,13 @@ Private Sub Worksheet_Activate()
 End Sub
 Sub Worksheet_Change(ByVal Target As Range)
     On Error Resume Next
+    
     ThisWorkbook.UnProtect_This_Sheet
-
+    
+    Dim Cell As Range
+    For Each Cell In Application.ActiveSheet.UsedRange
+        ThisWorkbook.CheckRequiredCell Cell
+    Next
     sheet_autofit
 
     ThisWorkbook.Protect_This_Sheet

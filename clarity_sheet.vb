@@ -63,7 +63,14 @@ Sub Worksheet_Change(ByVal Target As Range)
     ShowHideModelsQuestions Target
     ShowHideModelsTab Target
     ShowUseCaseTabs Target
-
+    
+    ThisWorkbook.UnProtect_This_Sheet
+    Dim Cell As Range
+    For Each Cell In Application.ActiveSheet.UsedRange
+        ThisWorkbook.CheckRequiredCell Cell
+    Next
+    
+    ThisWorkbook.Protect_This_Sheet
 End Sub
 Sub ShowCapabilityTabs(Target As Range)
     ' a hidden mapping tab associates the Salesforce product name to the simpler capability tab name

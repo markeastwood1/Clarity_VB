@@ -62,6 +62,11 @@ Sub Worksheet_Change(ByVal Target As Range)
 
     ThisWorkbook.UnProtect_This_Sheet
 
+    Dim Cell As Range
+    For Each Cell In Application.ActiveSheet.UsedRange
+        ThisWorkbook.CheckRequiredCell Cell
+    Next
+
     ' check to see if one of these values has changed
     Set solnTypeQuestion = Intersect(Target, Range(SOLUTION_TYPE_QUESTION))
     Set requirementsTypeQuestion = Intersect(Target, Range(REQUIREMENTS_QUESTION))

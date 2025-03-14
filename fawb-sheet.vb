@@ -35,6 +35,11 @@ Sub Worksheet_Change(ByVal Target As Range)
     On Error Resume Next
     ThisWorkbook.UnProtect_This_Sheet
 
+    Dim cell As Range
+    For Each cell In Application.ActiveSheet.UsedRange
+        ThisWorkbook.CheckRequiredCell cell
+    Next
+
     sheet_autofit
 
     ThisWorkbook.Protect_This_Sheet

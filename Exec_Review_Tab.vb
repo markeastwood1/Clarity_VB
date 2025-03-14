@@ -26,6 +26,11 @@ Sub Worksheet_Change(ByVal Target As Range)
 
     ThisWorkbook.UnProtect_This_Sheet
 
+    Dim Cell As Range
+    For Each Cell In Application.ActiveSheet.usedRange
+        ThisWorkbook.CheckRequiredCell Cell
+    Next
+
     ThisWorkbook.Sheets("Executive Review").usedRange.EntireRow.AutoFit
 
     ThisWorkbook.Protect_This_Sheet
