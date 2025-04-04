@@ -52,8 +52,7 @@ Sub ImportArchPicture()
     ThisWorkbook.UnProtect_This_Sheet
     Dim fNameAndPath As Variant
 
-    fNameAndPath = Application.GetOpenFilename("Image Files (*.jpg;*.jpeg;*.png;*.gif), *.jpg;*.jpeg;*.png;*.gif", _
-                                              Title:="Select picture to be imported")
+    fNameAndPath = Application.GetOpenFilename(Title:="Select image file to be imported")
     If fNameAndPath = False Then
         Exit Sub
     End If
