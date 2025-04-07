@@ -49,7 +49,7 @@ End Sub
 Sub ImportArchPicture()
 ' the imported picture is always named ArchPicture
 
-    ThisWorkbook.UnProtect_This_Sheet
+
     Dim fNameAndPath As Variant
 
     fNameAndPath = Application.GetOpenFilename(Title:="Select image file to be imported")
@@ -57,6 +57,7 @@ Sub ImportArchPicture()
         Exit Sub
     End If
 
+    ThisWorkbook.UnProtect_This_Sheet
     Dim s As Shape
     Dim ws As Worksheet
 
