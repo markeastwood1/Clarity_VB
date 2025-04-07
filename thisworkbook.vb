@@ -279,8 +279,14 @@ End Function
 Sub Protect_This_Sheet()
     ActiveSheet.Protect ThisWorkbook.myPassword()
 End Sub
+Sub Protect_Named_Sheet(wsName as String)
+    ThisWorkbook.Sheets(wsName).Protect ThisWorkbook.myPassword()
+End Sub
 Sub UnProtect_This_Sheet()
     ActiveSheet.Unprotect ThisWorkbook.myPassword()
+End Sub
+Sub UnProtect_Named_Sheet(wsName as String)
+    ThisWorkbook.Sheets(wsName).Unprotect ThisWorkbook.myPassword()
 End Sub
 Sub SetFirstWorkbookOpen()
     On Error Resume Next
