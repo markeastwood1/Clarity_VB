@@ -161,7 +161,7 @@ Sub sheet_autofit()
     ThisWorkbook.Protect_This_Sheet
 End Sub
 Sub Worksheet_Change(ByVal Target As Range)
-    
+
     ThisWorkbook.UnProtect_This_Sheet
     Dim Cell As Range
     For Each Cell In Application.ActiveSheet.UsedRange
@@ -184,18 +184,22 @@ Sub CheckDB()
     ThisWorkbook.UnProtect_This_Sheet
 
     If FAWBInSolution Then
+        ThisWorkbook.UnProtect_Named_Sheet("FAWB")
         Worksheets("Arc Diagram").Range(ARC_DEDICATED_DB_VALUE).Value2 = Worksheets("FAWB").Range(FAWB_DEDICATED_DB_VALUE).Value2
         Worksheets("Arc Diagram").Range(ARC_DEDICATED_DB_COMMENT).Value2 = Worksheets("FAWB").Range(FAWB_DEDICATED_DB_COMMENT).Value2
 
         Worksheets("Arc Diagram").Range(ARC_DB_SIZE_VALUE).Value2 = Worksheets("FAWB").Range(FAWB_SIZE_VALUE).Value2
         Worksheets("Arc Diagram").Range(ARC_DB_SIZE_COMMENT).Value2 = Worksheets("FAWB").Range(FAWB_SIZE_COMMENT).Value2
+        ThisWorkbook.Protect_Named_Sheet("FAWB")
     Else
         If DBSInSolution Then
+            ThisWorkbook.UnProtect_Named_Sheet("DB Service")
             Worksheets("Arc Diagram").Range(ARC_DEDICATED_DB_VALUE).Value2 = Worksheets("DB Service").Range(DBS_DEDICATED_DB_VALUE).Value2
             Worksheets("Arc Diagram").Range(ARC_DEDICATED_DB_COMMENT).Value2 = Worksheets("DB Service").Range(DBS_DEDICATED_DB_COMMENT).Value2
 
             Worksheets("Arc Diagram").Range(ARC_DB_SIZE_VALUE).Value2 = Worksheets("DB Service").Range(DBS_SIZE_VALUE).Value2
             Worksheets("Arc Diagram").Range(ARC_DB_SIZE_COMMENT).Value2 = Worksheets("DB Service").Range(DBS_SIZE_COMMENT).Value2
+            ThisWorkbook.Protect_Named_Sheet("DB Service")
         Else
             ' if we get here we may be an EPC but we don't have DB Service or FAWB in this solution
             If IsEPC = "Yes" Then
