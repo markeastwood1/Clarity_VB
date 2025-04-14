@@ -49,7 +49,6 @@ End Sub
 Sub ImportArchPicture()
 ' the imported picture is always named ArchPicture
 
-
     Dim fNameAndPath As Variant
 
     fNameAndPath = Application.GetOpenFilename(Title:="Select image file to be imported")
