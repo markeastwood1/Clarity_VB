@@ -59,7 +59,16 @@ Sub Worksheet_Change(ByVal Target As Range)
         Next iCell
 
     End If
-
+    
+    If isListedCapability("AML Advanced Analytics") = True Then
+        If IsEmpty(Range(RANGE_MODELS_QUESTION).Value2) Or Range(RANGE_MODELS_QUESTION).Value2 = "No" Then
+            Range(RANGE_MODELS_QUESTION).Value2 = "Yes"
+        End If
+        If IsEmpty(Range(RANGE_MODELS_PROVIDER).Value2) Then
+            Range(RANGE_MODELS_PROVIDER).Value2 = "AIID Analytic Services (add notes)"
+        End If
+    End If
+    
     ShowHideModelsQuestions Target
     ShowHideModelsTab Target
     ShowUseCaseTabs Target
@@ -182,7 +191,7 @@ Sub ShowHideModelsQuestions(Target As Range)
     ThisWorkbook.UnProtect_This_Sheet
 
     Dim modelsAnswer As Range
-
+    
     'did the change happen where we are interested?
     Set modelsAnswer = Intersect(Target, Range(RANGE_MODELS_QUESTION))
 
@@ -194,7 +203,9 @@ Sub ShowHideModelsQuestions(Target As Range)
     If modelsAnswer.Value2 = "No" Or modelsAnswer.Value2 = "" Then
     ' hide the rows
          Dim r As Range
-
+         
+         Range(RANGE_MODELS_PROVIDER).Value2 = ""
+         
          For Each r In Range(RANGE_MODEL_QUESTIONS).Rows
              r.EntireRow.Hidden = True
          Next r
@@ -203,7 +214,7 @@ Sub ShowHideModelsQuestions(Target As Range)
         ' show the rows
         For Each r In Range(RANGE_MODEL_QUESTIONS).Rows
              r.EntireRow.Hidden = False
-         Next r
+        Next r
     End If
 
     ThisWorkbook.Protect_This_Sheet
@@ -224,10 +235,14 @@ Sub ShowHideModelsTab(Target As Range)
     Case "Optimization Only"
         Worksheets("Analytics").Visible = xlVeryHidden
         Worksheets("Opti Models").Visible = xlSheetVisible
+    Case "AIID Analytic Services (add notes)"
+        Worksheets("Analytics").Visible = xlSheetVisible
+        Worksheets("Opti Models").Visible = xlVeryHidden
     Case Else
         ' hide them
         Worksheets("Analytics").Visible = xlVeryHidden
         Worksheets("Opti Models").Visible = xlVeryHidden
+    
     End Select
 
     ThisWorkbook.Protect Structure:=True
@@ -337,15 +352,15 @@ Private Sub ResetButton()
     ' if we have the review tabs open, leave them open
     Dim theSheet As Worksheet
     For Each theSheet In ThisWorkbook.Worksheets
-       If Not theSheet.Name = "CLARITY" And _
-       Not theSheet.Name = "Triggers for Sol Arc" And _
-       Not theSheet.Name = "Arc Diagram" And _
-       Not theSheet.Name = "Risks" And _
-       Not theSheet.Name = "Reviewer Detail" And _
-       Not theSheet.Name = "Explanation and Assumptions" And _
-       Not theSheet.Name = "Review Summary" And _
-       Not theSheet.Name = "Ref_Arch_Diagram" And _
-       Not theSheet.Name = "Executive Review" Then
+       If Not theSheet.name = "CLARITY" And _
+       Not theSheet.name = "Triggers for Sol Arc" And _
+       Not theSheet.name = "Arc Diagram" And _
+       Not theSheet.name = "Risks" And _
+       Not theSheet.name = "Reviewer Detail" And _
+       Not theSheet.name = "Explanation and Assumptions" And _
+       Not theSheet.name = "Review Summary" And _
+       Not theSheet.name = "Ref_Arch_Diagram" And _
+       Not theSheet.name = "Executive Review" Then
            theSheet.Visible = xlVeryHidden
        End If
     Next
@@ -384,6 +399,9 @@ Private Sub ResetButton()
     'reset the use case too
     Range(RANGE_USE_CASE).Value2 = ""
     Range(RANGE_USE_CASE).Interior.ColorIndex = 0
+    
+    Range(RANGE_MODELS_QUESTION).Value2 = ""
+    Range(RANGE_MODELS_PROVIDER).Value2 = ""
 
     DeletePicture1
     DeletePicture2
@@ -726,7 +744,7 @@ Private Sub addImageByName(ByVal ImageLocation As String, ByVal ImageName As Str
     Set ws = ThisWorkbook.Worksheets("Clarity")
     Set s = ws.Shapes.AddPicture2(fNameAndPath, msoFalse, msoTrue, ThisWorkbook.Sheets("Clarity").Range(ImageLocation).Left, ThisWorkbook.Sheets("Clarity").Range(ImageLocation).Top, -1, -1, msoPictureCompressDocDefault)
 
-    s.Name = ImageName
+    s.name = ImageName
     s.LockAspectRatio = msoTrue
     s.Width = GetWidthABC()
 
@@ -738,7 +756,7 @@ Private Sub deleteImageByName(ByVal arg1 As String)
     Dim pic As Shape
 
     For Each pic In ThisWorkbook.Worksheets("Clarity").Shapes
-        If InStr(1, pic.Name, arg1, vbTextCompare) <> 0 Then
+        If InStr(1, pic.name, arg1, vbTextCompare) <> 0 Then
             pic.Delete
         End If
     Next pic
@@ -785,8 +803,8 @@ Sub SuperReset()
 
     Dim theSheet As Worksheet
     For Each theSheet In ThisWorkbook.Worksheets
-       If Not theSheet.Name = "Instructions" And _
-          Not theSheet.Name = "Triggers for Sol Arc" Then
+       If Not theSheet.name = "Instructions" And _
+          Not theSheet.name = "Triggers for Sol Arc" Then
            theSheet.Visible = xlVeryHidden
        End If
     Next
@@ -849,7 +867,8 @@ Sub SuperReset()
     Range(RANGE_USE_CASE).Interior.ColorIndex = 0
 
     'reset the Models Question too
-    Range(RANGE_MODELS_QUESTION).Value2 = "No"
+    Range(RANGE_MODELS_QUESTION).Value2 = ""
+    Range(RANGE_MODELS_PROVIDER).Value2 = ""
 
     'simply move the selection to the first row where we can select a capability
     Range(RANGE_CAPABILITY).Cells(1, 1).Select
