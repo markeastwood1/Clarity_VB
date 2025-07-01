@@ -42,6 +42,7 @@ Sub Worksheet_Activate()
     ThisWorkbook.Worksheets("CLARITY").Range("A4").Activate
     ThisWorkbook.Protect_This_Sheet
 End Sub
+
 Sub Worksheet_Change(ByVal Target As Range)
 ' Worksheet_Change() gets in-cell changes and Worksheet_SelectionChange only fires when the selection changes
 '
@@ -60,14 +61,20 @@ Sub Worksheet_Change(ByVal Target As Range)
 
     End If
     
-    If isListedCapability("AML Advanced Analytics") = True Then
-        If IsEmpty(Range(RANGE_MODELS_QUESTION).Value2) Or Range(RANGE_MODELS_QUESTION).Value2 = "No" Then
-            Range(RANGE_MODELS_QUESTION).Value2 = "Yes"
-        End If
-        If IsEmpty(Range(RANGE_MODELS_PROVIDER).Value2) Then
-            Range(RANGE_MODELS_PROVIDER).Value2 = "AIID Analytic Services (add notes)"
+    Dim capabilityUpdated As Range
+    Set capabilityUpdated = Intersect(Target, Range(RANGE_CAPABILITY))
+    
+    If IsEmpty(capabilityUpdated) = False Then
+        If isListedCapability("AML Advanced Analytics") = True Then
+                If IsEmpty(Range(RANGE_MODELS_QUESTION).Value2) Or Range(RANGE_MODELS_QUESTION).Value2 = "No" Then
+                    Range(RANGE_MODELS_QUESTION).Value2 = "Yes"
+                End If
+                If IsEmpty(Range(RANGE_MODELS_PROVIDER).Value2) Then
+                    Range(RANGE_MODELS_PROVIDER).Value2 = "AIID Analytic Services (add notes)"
+                End If
         End If
     End If
+    
     
     ShowHideModelsQuestions Target
     ShowHideModelsTab Target
@@ -622,9 +629,13 @@ Function isListedCapability(selectedName As String) As Boolean
     On Error Resume Next
     isListedCapability = False
 
+    Dim placeHolder As Range
+    Set placeHolder = ActiveCell
+    
     If selectedName = "" Or IsNull(selectedName) Then
         Exit Function
     End If
+    
 
     Dim numRows, loopCounter As Integer
     numRows = Range(RANGE_CAPABILITY).Rows.Count
@@ -638,12 +649,14 @@ Function isListedCapability(selectedName As String) As Boolean
         ActiveCell.Offset(1, 0).Select
         loopCounter = loopCounter + 1
     Loop
-
+    
     Application.ScreenUpdating = True
 
     If ActiveCell.Value = selectedName Then
         isListedCapability = True
     End If
+    
+    placeHolder.Activate
 End Function
 Function UseCaseSelectMapping(selectedName As String)
    On Error Resume Next
@@ -1073,3 +1086,4 @@ Private Function ButtonStatus(button As Shape) As Boolean
         ButtonStatus = True
     End If
 End Function
+
